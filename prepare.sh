@@ -89,13 +89,12 @@ function prepare_glove() {
     check_gdown
     echo "Preparing GloVe data..."
 
-    mkdir -p deps/glove
     echo "Downloading GloVe data..."
-    gdown "$GLOVE_DATA_URL" -O deps/glove/glove_data.zip
+    gdown "$GLOVE_DATA_URL" -O deps/glove_data.zip
     echo "Unzipping GloVe data..."
-    unzip deps/glove/glove_data.zip -d deps/glove
+    unzip deps/glove_data.zip -d deps
     echo "Cleaning up..."
-    rm deps/glove/glove_data.zip
+    rm deps/glove_data.zip
 }
 
 

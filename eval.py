@@ -73,7 +73,7 @@ def main(cfg: DictConfig) -> None:
     except Exception:
         add_name = ""
         logging.info("Could not get HydraConfig, setting add_name to empty string.")
-    save_path = pjoin(cfg.folder.run, 'eval', f'results_{cfg.ckpt_name}{add_name}_seed{cfg.seed}.csv')
+    save_path = pjoin(cfg.folder.run, 'eval', f'results_{cfg.ckpt_name}{add_name}.csv')
     os.makedirs(os.path.dirname(save_path), exist_ok=True)
     summary_df.to_csv(save_path)
     
