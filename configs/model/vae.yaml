@@ -1,0 +1,40 @@
+# @package __global__
+defaults:
+  - override /data/dataset_module@data.train_dataset: t2m_motion
+  - override /data/dataset_module@data.val_dataset: t2m_motion
+
+model:
+  _target_: src.arch.vae.model.VAE
+  num_joints: ${data.meta.hijoints}
+  pose_dim: ${data.meta.nfeats}
+  width: 64
+  depth: 3
+  latent_dim: 16
+  activation: gelu
+  dataset_name: ${hydra:runtime.choices.data}
+  scale_factor: null
+  shift_factor: null
+  ch_mult: [1, 2, 4]
+
+
+trainer:
+  _target_: src.pipelines.vae_trainer.VAEtrainer
+
+recons_loss: 'l1' # 'l1' | 'l2' | 'l1_smooth'
+
+interpolation_type: 'half-diff' # 'half-diff' | 'cum-diff' | 'straight'
+pool_latent: 'linear' # 'linear' | 'nearest' | 'none'
+pool_up: False # True | False
+pool_loss_type: 'rootric' # 'rootric' | 'root' | 'all'
+
+lambda_pool: 0.5
+loss_ric: 0.5
+loss_vel: 0.5
+commit: 0.02
+
+_map_eval:
+  t2m: evaluation_vae
+  kit: evaluation_vae
+
+data:
+  batch_size: 256

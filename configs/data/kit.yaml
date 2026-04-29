@@ -1,0 +1,29 @@
+defaults:
+  - dataset_module@train_dataset: t2m_t2m
+  - dataset_module@val_dataset: t2m_t2m
+  - dataset_module@eval_dataset: t2m_eval
+  - dataset_module@test_dataset: t2m_eval
+  - default
+
+meta:
+  joints: 21
+  nfeats: 251
+  hijoints: [21, 14, 6]
+
+data_root: datasets/kit-ml
+eval_mean: ${resources.eval_mean.kit}
+eval_std: ${resources.eval_std.kit}
+dataset_name: kit
+
+train_dataset:
+  split_file: ${data.data_root}/train.txt
+val_dataset:
+  split_file: ${data.data_root}/val.txt
+eval_dataset:
+  split_file: ${data.data_root}/val.txt
+test_dataset:
+  split_file: ${data.data_root}/test.txt
+
+eval_collate_fn:
+  _target_: src.data.t2m_dataset.collate_fn
+  _partial_: True

@@ -1,0 +1,38 @@
+# @package __global__
+defaults:
+  - override /data/dataset_module@data.train_dataset: t2m_t2m
+  - override /data/dataset_module@data.val_dataset: t2m_t2m
+
+model:
+  _target_: src.arch.dit.tmdit.FlowModel
+  latent_dim: 384
+  vae_dim: 16
+  joints_num: 6
+  pos_type: rope
+  n_heads: 6
+  n_double_layers: 3
+  n_single_layers: 6
+  dropout: 0.3
+  pooled_encoder: ViT-B/32
+  text_encoder: ViT-B/32
+  scales: [0.3, 0.6, 1.0]
+  time_patch: 2
+  v_split: False
+  scale_emb_type: sincos
+  short_cut: False
+  interpolation_type: half-diff
+  interpolation_mode: linear
+  cond_drop_prob: 0.1
+
+
+vae_model:
+  name: ???
+  ckpt_name: net_best_fid
+
+trainer:
+  _target_: src.pipelines.dit_trainer.FlowTrainer
+
+
+_map_eval:
+  t2m: evaluation_dit
+  kit: evaluation_dit

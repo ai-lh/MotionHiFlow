@@ -1,0 +1,32 @@
+meta:
+  joints: ???
+  nfeats: ???
+  hijoints: ???
+
+data_root: ???
+batch_size: 32
+num_workers: 16
+
+# _map_eval: ???
+
+mean:
+  _target_: numpy.load
+  _args_: ['${resources.mean.${hydra:runtime.choices.data}}']
+std:
+  _target_: numpy.load
+  _args_: ['${resources.std.${hydra:runtime.choices.data}}']
+
+eval_func:
+  _target_: src.utils.eval_t2m.${_map_eval.${hydra:runtime.choices.data}}
+  _partial_: True
+  cal_mm: ${cal_mm}
+  # eval_mean:
+  #   _target_: torch.from_numpy
+  #   _args_:
+  #     - _target_: numpy.load
+  #       _args_: ['${resources.eval_mean.${hydra:runtime.choices.data}}']
+  # eval_std:
+  #   _target_: torch.from_numpy
+  #   _args_:
+  #     - _target_: numpy.load
+  #       _args_: ['${resources.eval_std.${hydra:runtime.choices.data}}']

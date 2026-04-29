@@ -1,0 +1,21 @@
+defaults:
+  - default
+  - data: t2m
+  - model: tmdit
+  - _self_
+
+cond_scale: 4.5
+time_steps: 12
+
+id: '' # user set id for the run
+name: ${hydra:runtime.choices.data}_${hydra:runtime.choices.model}_${id}
+
+ckpt_name: net_best_fid
+vae_model:
+  name: ''
+  ckpt_name: net_best_fid
+
+replication_times: 20
+
+logger:
+  filename: ${folder.run}/eval.log

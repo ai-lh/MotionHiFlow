@@ -1,0 +1,20 @@
+guo_eval: Comp_v6_KLD005
+clip: ViT-B/32
+word_vectorizer: deps/glove
+
+mean:
+  kit: datasets/kit-ml/Mean.npy
+  # t2m: datasets/humanml3d/Mean.npy
+  t2m: ${resources.evaluators_path}/t2m/${resources.guo_eval}/meta/mean.npy
+std:
+  kit: datasets/kit-ml/Std.npy
+  # t2m: datasets/HumanML3D/Std.npy
+  t2m: ${resources.evaluators_path}/t2m/${resources.guo_eval}/meta/std.npy    # To ensure consistency with evaluation
+
+evaluators_path: deps/evaluators
+eval_mean:
+  kit: ${resources.evaluators_path}/kit/${resources.guo_eval}/meta/mean.npy
+  t2m: ${resources.evaluators_path}/t2m/${resources.guo_eval}/meta/mean.npy
+eval_std:
+  kit: ${resources.evaluators_path}/kit/${resources.guo_eval}/meta/std.npy
+  t2m: ${resources.evaluators_path}/t2m/${resources.guo_eval}/meta/std.npy

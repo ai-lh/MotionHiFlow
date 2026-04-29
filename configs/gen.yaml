@@ -1,0 +1,28 @@
+defaults:
+  - default
+  - data: t2m
+  - model: tmdit
+  - _self_
+
+id: ''
+name: ${hydra:runtime.choices.data}_${hydra:runtime.choices.model}_${id}
+
+ckpt_name: net_best_fid
+vae_model:
+  name: ''
+  ckpt_name: net_best_fid
+
+# Generation parameters
+cond_scale: 4.5
+time_steps: 12
+cfg_interval: [0.0, 1.0]
+repeat_times: 5
+batch_size: 0  # 0 means all in one batch; set a positive number to limit per-batch size
+
+# Text input (mutually exclusive: text_prompt or text_path)
+text_prompt: ''
+text_path: ''
+motion_length: 0  # 0 means auto-estimate
+
+# Output
+output_dir: ./outputs

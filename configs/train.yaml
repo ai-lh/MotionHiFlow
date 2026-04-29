@@ -1,0 +1,27 @@
+defaults:
+  - default
+  - data: t2m
+  - model: tmdit
+  - optimizer: adamw
+  - lr_scheduler: cosine
+  - _self_
+
+
+id: '' # user set id for the run
+name: ${hydra:runtime.choices.data}_${hydra:runtime.choices.model}_${id}
+
+
+logger:
+  filename: ${folder.run}/train.log
+
+max_iter: 400_000
+warm_up_iter: 3_000
+eval_every: 5_000
+save_latest: 1_000
+log_every: 10
+lr: 2.0e-4
+data:
+  batch_size: 64
+
+cond_scale: 4.0
+time_steps: 20

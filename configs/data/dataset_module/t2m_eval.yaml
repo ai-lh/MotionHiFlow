@@ -1,0 +1,19 @@
+_target_: src.data.t2m_dataset.Text2MotionDatasetEval
+mean: ${data.mean}
+std: ${data.std}
+opt:
+  max_motion_length: 196
+  meta_dir: ${folder.run}/meta
+  eval_mean_std: True
+  is_train: True
+  joints_num: ${data.meta.joints}
+  feat_bias: 1.0
+  motion_dir: ${data.data_root}/new_joint_vecs
+  text_dir: ${data.data_root}/texts
+  dataset_name: ${data.dataset_name}
+  unit_length: 4
+  max_text_len: 20
+w_vectorizer:
+  _target_: src.utils.word_vectorizer.WordVectorizer
+  meta_root: ${resources.word_vectorizer}
+  prefix: 'our_vab'
