@@ -27,10 +27,11 @@ class Motion1Dto2D(nn.Module):
         self.act = get_activation(activation)
         self.weight2 = torch.nn.Parameter(torch.nn.init.kaiming_normal_(torch.empty(self.joints_num, width, width)))
         self.bias2 = torch.nn.Parameter(torch.zeros(self.joints_num, width))
+        self.reset_parameters()
 
     def reset_parameters(self) -> None:
-        fan_in1, _ = torch.nn.init._calculate_fan_in_and_fan_out(self.weight1.view(self.joints_num * 14, -1))
-        fan_in2, _ = torch.nn.init._calculate_fan_in_and_fan_out(self.weight2.view(self.joints_num * self.width, -1))
+        fan_in1, _ = torch.nn.init._calculate_fan_in_and_fan_out(rearrange(self.weight1, 'v d o -> (v o) d'))
+        fan_in2, _ = torch.nn.init._calculate_fan_in_and_fan_out(rearrange(self.weight2, 'v d o -> (v o) d'))
         bound1 = 1 / math.sqrt(fan_in1) if fan_in1 > 0 else 0
         bound2 = 1 / math.sqrt(fan_in2) if fan_in2 > 0 else 0
         torch.nn.init.uniform_(self.bias1, -bound1, bound1)
@@ -97,10 +98,11 @@ class Motion2Dto1D(nn.Module):
         self.act = get_activation(activation)
         self.weight2 = torch.nn.Parameter(torch.nn.init.kaiming_normal_(torch.empty(self.joints_num, width, 14)))
         self.bias2 = torch.nn.Parameter(torch.zeros(self.joints_num, 14))
+        self.reset_parameters()
 
     def reset_parameters(self) -> None:
-        fan_in1, _ = torch.nn.init._calculate_fan_in_and_fan_out(self.weight1.view(self.joints_num * 14, -1))
-        fan_in2, _ = torch.nn.init._calculate_fan_in_and_fan_out(self.weight2.view(self.joints_num * self.width, -1))
+        fan_in1, _ = torch.nn.init._calculate_fan_in_and_fan_out(rearrange(self.weight1, 'v d o -> (v o) d'))
+        fan_in2, _ = torch.nn.init._calculate_fan_in_and_fan_out(rearrange(self.weight2, 'v d o -> (v o) d'))
         bound1 = 1 / math.sqrt(fan_in1) if fan_in1 > 0 else 0
         bound2 = 1 / math.sqrt(fan_in2) if fan_in2 > 0 else 0
         torch.nn.init.uniform_(self.bias1, -bound1, bound1)
